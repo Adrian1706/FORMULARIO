@@ -49,39 +49,66 @@
     <div class="container1">
         <div class="container2" style="display:flex;">
             <div class="container3">
-                <input type="text" placeholder="Nombre" style="margin-top: 20px">
+                <input type="text" placeholder="Nombre" style="margin-top: 20px" name="nombre">
                 <br>
-                <input type="text" placeholder="Apellidos" style="margin-top: 20px">
+                <input type="text" placeholder="Apellido" style="margin-top: 20px" name="apellido">
                 <br>
-                <input type="text" placeholder="Direccion" style="margin-top: 20px">
+                <input type="text" placeholder="Direccion" style="margin-top: 20px" name="direccion">
             </div>
             <div class="container4" style="margin-left:30px">
                 <h4>CAMPUSLANDS</h4>
-                <input type="number" placeholder="Edad">
+                <input type="number" placeholder="Edad" name="edad">
                 <br>
-                <input type="text" placeholder="Email">
+                <input type="text" placeholder="Email" name="email">
             </div>
         </div>
         <div class="container5" style="display:flex;">
             <div class="cotainer6">
                 <input type="time">
                 <br>
-                <input type="text" placeholder="Team">
+                <input type="text" placeholder="Team" name="team">
                 <br>
-                <input type="text" placeholder="Trainer">
+                <input type="text" placeholder="Trainer" name="trainer">
                 </div>
             <div class="container7">
                 <div class="container8" style="margin-left:30px">
-                    <button>✔</button>
-                    <button>X</button>
+                    <button name="agg">✔</button>
+                    <button name="borrar">X</button>
                 </div>
                 <div class="container9" style="margin-top:10px; margin-left:30px">
-                    <button>✎</button>
-                    <button>Buscar</button>
+                    <button name="editar">✎</button>
+                    <button name="buscar">Buscar</button>
                 </div>
-                <input type="text" placeholder="Cédula">
+                <input type="text" placeholder="Cédula" name="cedula">
             </div>
         </div>
     </div>
+    <div id="div4" class="conta">
+        <table class="table">
+            <tr> 
+              <th>Nombre</th>
+              <th>Apellido</th>
+              <th>Direccion</th>
+              <th>Edad</th>
+              <th>Email</th>
+              <th>Team</th>
+              <th>Trainer</th>
+            </tr>
+        <tbody class="table2-group-divider lista">
+  
+  
+  
+  
+        </tbody>
+    </div>
+
+
+
+
+
+
+
+
+
 </body>
 </html>
