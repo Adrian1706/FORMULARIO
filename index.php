@@ -1,6 +1,8 @@
 <?php
-    
     session_start();
+
+    /** Funcion De Agregar */
+
     if(isset($_POST['agg'])){
         $nombre=$_POST['nombre'];
         $apellido=$_POST['apellido'];
@@ -29,8 +31,69 @@
         $credenciales["http"]["content"] = $data;
         $config = stream_context_create($credenciales);
         $_DATA = file_get_contents("https://64822ec329fa1c5c5032b0a9.mockapi.io/usuario", false, $config);
-        print_r($_DATA);
     }
+
+    /** Funcion De Buscar */
+
+    elseif (isset($_POST['buscar'])) {
+        $cedula = $_POST['cedula'];
+        $url = "https://64822ec329fa1c5c5032b0a9.mockapi.io/usuario/?cedula=" . urlencode($cedula);
+        $response = file_get_contents($url);
+        $data = json_decode($response, true);
+        if (!empty($data)) {
+            $nombre = $data[0]['Nombre'];
+            $apellido = $data[0]['Apellido'];
+            $direccion = $data[0]['Direccion'];
+            $edad = $data[0]['Edad'];
+            $email = $data[0]['Email'];
+            $horario = $data[0]['Horario'];
+            $team = $data[0]['Team'];
+            $trainer = $data[0]['Trainer'];
+            
+        }
+        if (!empty($data)) {
+            echo "<table>
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Apellido</th>
+                            <th>Dirección</th>
+                            <th>Edad</th>
+                            <th>Email</th>
+                            <th>Team</th>
+                            <th>Trainer</th>
+                        </tr>
+                    </thead>
+                    <tbody>";
+            
+            foreach ($data as $content) {
+                echo "<tr>";
+                echo "<td>".$content['Nombre']."</td>";
+                echo "<td>".$content['Apellido']."</td>";
+                echo "<td>".$content['Direccion']."</td>";
+                echo "<td>".$content['Edad']."</td>";
+                echo "<td>".$content['Email']."</td>";
+                echo "<td>".$content['Horario']."</td>";
+                echo "<td>".$content['Team']."</td>";
+                echo "<td>".$content['Trainer']."</td>";
+                echo "</tr>";
+            }
+            
+            echo "</tbody>";
+            echo "</table>";
+        } else {
+            echo "No se encontro el usuario.";
+        }
+    }
+    
+        /**$credenciales["http"]["method"]="GET";
+        $credenciales["http"]["header"] = "Content-type: application/json"; 
+        $data = json_encode($data);
+        $credenciales["http"]["content"] = $data;
+        $config = stream_context_create($credenciales);
+        $_DATA = file_get_contents("https://64822ec329fa1c5c5032b0a9.mockapi.io/usuario", false, $config);
+        print_r($_DATA);*/
+
 ?>  
 <!DOCTYPE html>
 <html lang="en">
