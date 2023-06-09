@@ -35,9 +35,9 @@
 
     /** Funcion De Buscar */
 
-    elseif (isset($_POST['buscar'])) {
+    if (!empty($_POST['buscar'])) {
         $cedula = $_POST['cedula'];
-        $url = "https://64822ec329fa1c5c5032b0a9.mockapi.io/usuario/?cedula=" . urlencode($cedula);
+        $url = "https://64822ec329fa1c5c5032b0a9.mockapi.io/usuario?Cedula=" . urlencode($cedula);
         $response = file_get_contents($url);
         $data = json_decode($response, true);
         if (!empty($data)) {
@@ -49,51 +49,31 @@
             $horario = $data[0]['Horario'];
             $team = $data[0]['Team'];
             $trainer = $data[0]['Trainer'];
-            
-        }
-        if (!empty($data)) {
-            echo "<table>
-                    <thead>
-                        <tr>
-                            <th>Nombre</th>
-                            <th>Apellido</th>
-                            <th>Dirección</th>
-                            <th>Edad</th>
-                            <th>Email</th>
-                            <th>Team</th>
-                            <th>Trainer</th>
-                        </tr>
-                    </thead>
-                    <tbody>";
-            
-            foreach ($data as $content) {
-                echo "<tr>";
-                echo "<td>".$content['Nombre']."</td>";
-                echo "<td>".$content['Apellido']."</td>";
-                echo "<td>".$content['Direccion']."</td>";
-                echo "<td>".$content['Edad']."</td>";
-                echo "<td>".$content['Email']."</td>";
-                echo "<td>".$content['Horario']."</td>";
-                echo "<td>".$content['Team']."</td>";
-                echo "<td>".$content['Trainer']."</td>";
-                echo "</tr>";
-            }
-            
-            echo "</tbody>";
-            echo "</table>";
-        } else {
-            echo "No se encontro el usuario.";
-        }
+        }else{
+            echo "No se encontraron datos relacionados a este usuario";
+        };
     }
-    
-        /**$credenciales["http"]["method"]="GET";
-        $credenciales["http"]["header"] = "Content-type: application/json"; 
-        $data = json_encode($data);
-        $credenciales["http"]["content"] = $data;
-        $config = stream_context_create($credenciales);
-        $_DATA = file_get_contents("https://64822ec329fa1c5c5032b0a9.mockapi.io/usuario", false, $config);
-        print_r($_DATA);*/
 
+    /** Funcion De Eliminar */
+
+    if (isset($_POST['borrar'])){
+        $cedula = $_POST['cedula'];
+        $url = "https://64822ec329fa1c5c5032b0a9.mockapi.io/usuario?Cedula=" . urlencode($cedula);
+        $response = file_get_contents($url);
+        $data = json_decode($response, true);
+        if(!empty($data)){
+            $id = $data[0]['id'];
+            $credenciales["http"]["method"] = "DELETE";
+            $configuracion=stream_context_create($credenciales);
+            $url = "https://64822ec329fa1c5c5032b0a9.mockapi.io/usuario/" . urlencode($id);
+            $response = file_get_contents($url, false, $configuracion);
+            if($response !== false){
+                echo 'Se elimino correctamente el usuario';
+            }else{
+                echo 'No se encontraron datos';
+            }
+        }
+    };
 ?>  
 <!DOCTYPE html>
 <html lang="en">
@@ -132,26 +112,26 @@
         <form method="POST">
             <div class="container2" style="display:flex;">
                 <div class="container3">
-                    <input type="text" placeholder="Nombre" style="margin-top: 20px" name="nombre">
+                    <input type="text" placeholder="Nombre" style="margin-top: 20px" name="nombre" value="<?php echo isset($nombre) ? $nombre : ''; ?>">
                     <br>
-                    <input type="text" placeholder="Apellido" style="margin-top: 20px" name="apellido">
+                    <input type="text" placeholder="Apellido" style="margin-top: 20px" name="apellido" value="<?php echo isset($apellido) ? $apellido : ''; ?>">
                     <br>
-                    <input type="text" placeholder="Direccion" style="margin-top: 20px" name="direccion">
+                    <input type="text" placeholder="Direccion" style="margin-top: 20px" name="direccion" value="<?php echo isset($direccion) ? $direccion : ''; ?>">
                 </div>
                 <div class="container4" style="margin-left:30px">
                     <h4>CAMPUSLANDS</h4>
-                    <input type="number" placeholder="Edad" name="edad">
+                    <input type="number" placeholder="Edad" name="edad" value="<?php echo isset($edad) ? $edad : ''; ?>">
                     <br>
-                    <input type="text" placeholder="Email" name="email">
+                    <input type="text" placeholder="Email" name="email" value="<?php echo isset ($email) ? $email : ''; ?>">
                 </div>
             </div>
             <div class="container5" style="display:flex;">
                 <div class="cotainer6">
-                    <input type="time" name="horario">
+                    <input type="time" name="horario" value="<?php echo isset ($horario) ? $horario : ''; ?>">
                     <br>
-                    <input type="text" placeholder="Team" name="team">
+                    <input type="text" placeholder="Team" name="team" value="<?php echo isset ($team) ? $team : ''; ?>">
                     <br>
-                    <input type="text" placeholder="Trainer" name="trainer">
+                    <input type="text" placeholder="Trainer" name="trainer" value="<?php echo isset ($trainer) ? $trainer : ''; ?>">
                     </div>
                 <div class="container7">
                     <div class="container8" style="margin-left:30px">
@@ -162,7 +142,7 @@
                         <button name="editar">✎</button>
                         <button name="buscar">Buscar</button>
                     </div>
-                    <input type="text" placeholder="Cédula" name="cedula">
+                    <input type="number" placeholder="Cédula" name="cedula">
                 </div>
         </div>
         </form>
