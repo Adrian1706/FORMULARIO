@@ -74,6 +74,53 @@
             }
         }
     };
+
+    /** Funcion de Editar */
+
+    if (isset($_POST['editar'])){
+        if(!empty($_POST['editar'])){
+            $cedula=$_POST['cedula'];
+            $url=$url = "https://64822ec329fa1c5c5032b0a9.mockapi.io/usuario?Cedula=" . urlencode($cedula);
+            $response = file_get_contents($url);
+            $data = json_decode($response, true);
+            if(!empty($data)){
+                $id=$data[0]['id'];
+                $nombre=$_POST['nombre'];
+                $apellido=$_POST['apellido'];
+                $direccion=$_POST['direccion'];
+                $edad=$_POST['edad'];
+                $email=$_POST['email'];
+                $horario=$_POST['horario'];
+                $team=$_POST['team'];
+                $trainer=$_POST['trainer'];
+                $update=array(
+                    "Nombre" => $nombre,
+                    "Apellido" => $apellido,
+                    "Direccion" => $direccion,
+                    "Edad" => $edad,
+                    "Email" => $email,
+                    "Horario" => $horario,
+                    "Team" => $team,
+                    "Trainer" => $trainer,
+                    "Cedula" => $cedula,
+                );
+                $jsonData = json_encode($update);
+                $credenciales["http"]["method"] = "PUT";
+                $credenciales["http"]["header"] = "Content-type: application/json"; 
+                $credenciales["http"]["content"] = $jsonData;
+                $config = stream_context_create($credenciales);
+                $url = "https://64822ec329fa1c5c5032b0a9.mockapi.io/usuario/" . urlencode($id);
+                $response = file_get_contents($url, false, $config);
+                if($response !== false){
+                    echo "Se actualizaron los datos.";
+                }else{
+                    echo "Error, no se pudieron actualizar los datos.";
+                }
+            }
+        }else{
+            echo "No se encontraron datos referentes a la cédula ingresada.";
+        }
+    }
 ?>  
 <!DOCTYPE html>
 <html lang="en">
