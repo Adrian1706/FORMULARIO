@@ -50,6 +50,7 @@
                 $horario = $data[0]['Horario'];
                 $team = $data[0]['Team'];
                 $trainer = $data[0]['Trainer'];
+                $cedula = $data[0]['Cedula'];
             }else{
                 echo "No se encontraron datos relacionados a este usuario";
             };
@@ -80,7 +81,7 @@
     /** Funcion de Editar */
 
     if (isset($_POST['editar'])){
-        if(!empty($_POST['editar'])){
+        if(!empty($_POST['cedula'])){
             $cedula=$_POST['cedula'];
             $url = "https://64822ec329fa1c5c5032b0a9.mockapi.io/usuario?Cedula=" . urlencode($cedula);
             $response = file_get_contents($url);
@@ -95,6 +96,7 @@
                 $horario=$_POST['horario'];
                 $team=$_POST['team'];
                 $trainer=$_POST['trainer'];
+                $cedula=$_POST['cedula'];
                 $update=array(
                     "Nombre" => $nombre,
                     "Apellido" => $apellido,
@@ -191,7 +193,7 @@
                         <button name="editar">✎</button>
                         <button name="buscar">Buscar</button>
                     </div>
-                    <input type="number" placeholder="Cédula" name="cedula">
+                    <input type="number" placeholder="Cédula" name="cedula" value="<?php echo isset ($cedula) ? $cedula : ''; ?>"> 
                 </div>
         </div>
         </form>
