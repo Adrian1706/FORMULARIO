@@ -35,23 +35,25 @@
 
     /** Funcion De Buscar */
 
-    if (!empty($_POST['buscar'])) {
-        $cedula = $_POST['cedula'];
-        $url = "https://64822ec329fa1c5c5032b0a9.mockapi.io/usuario?Cedula=" . urlencode($cedula);
-        $response = file_get_contents($url);
-        $data = json_decode($response, true);
-        if (!empty($data)) {
-            $nombre = $data[0]['Nombre'];
-            $apellido = $data[0]['Apellido'];
-            $direccion = $data[0]['Direccion'];
-            $edad = $data[0]['Edad'];
-            $email = $data[0]['Email'];
-            $horario = $data[0]['Horario'];
-            $team = $data[0]['Team'];
-            $trainer = $data[0]['Trainer'];
-        }else{
-            echo "No se encontraron datos relacionados a este usuario";
-        };
+    if (isset($_POST['buscar'])) {
+        if(!empty($_POST['cedula'])){
+            $cedula = $_POST['cedula'];
+            $url = "https://64822ec329fa1c5c5032b0a9.mockapi.io/usuario?Cedula=" . urlencode($cedula);
+            $response = file_get_contents($url);
+            $data = json_decode($response, true);
+            if (!empty($data)) {
+                $nombre = $data[0]['Nombre'];
+                $apellido = $data[0]['Apellido'];
+                $direccion = $data[0]['Direccion'];
+                $edad = $data[0]['Edad'];
+                $email = $data[0]['Email'];
+                $horario = $data[0]['Horario'];
+                $team = $data[0]['Team'];
+                $trainer = $data[0]['Trainer'];
+            }else{
+                echo "No se encontraron datos relacionados a este usuario";
+            };
+        }
     }
 
     /** Funcion De Eliminar */
@@ -80,7 +82,7 @@
     if (isset($_POST['editar'])){
         if(!empty($_POST['editar'])){
             $cedula=$_POST['cedula'];
-            $url=$url = "https://64822ec329fa1c5c5032b0a9.mockapi.io/usuario?Cedula=" . urlencode($cedula);
+            $url = "https://64822ec329fa1c5c5032b0a9.mockapi.io/usuario?Cedula=" . urlencode($cedula);
             $response = file_get_contents($url);
             $data = json_decode($response, true);
             if(!empty($data)){
